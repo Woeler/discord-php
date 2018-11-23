@@ -1,0 +1,22 @@
+{
+    "name": "woeler/phpdiscord",
+    "description": "A php library to use Discord webhooks and embeds.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Woeler",
+            "email": "woeler@woeler.eu"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Woeler\\DiscordPhp\\": "src/"
+        }
+    }
+}
