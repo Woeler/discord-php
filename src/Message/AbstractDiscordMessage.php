@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: woeler
  * Date: 22.11.18
- * Time: 18:58
+ * Time: 18:58.
  */
 
 namespace Woeler\DiscordPhp\Message;
-
 
 abstract class AbstractDiscordMessage implements DiscordMessageInterface
 {

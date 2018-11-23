@@ -71,6 +71,7 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * DiscordEmbedsMessage constructor.
+     *
      * @throws \Exception
      */
     public function __construct()
@@ -83,26 +84,26 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
      */
     public function toArray(): array
     {
-        $embeds = [];
-        $embeds['title'] = $this->title;
-        $embeds['description'] = $this->description;
-        $embeds['url'] = $this->url;
-        $embeds['color'] = $this->color;
-        $embeds['timestamp'] = $this->timestamp->getTimestamp();
+        $embeds                       = [];
+        $embeds['title']              = $this->title;
+        $embeds['description']        = $this->description;
+        $embeds['url']                = $this->url;
+        $embeds['color']              = $this->color;
+        $embeds['timestamp']          = $this->timestamp->getTimestamp();
         $embeds['footer']['icon_url'] = $this->footer_icon;
-        $embeds['footer']['text'] = $this->footer_text;
-        $embeds['thumbnail']['url'] = $this->thumbnail;
-        $embeds['image']['url'] = $this->image;
-        $embeds['author']['name'] = $this->author_name;
-        $embeds['author']['url'] = $this->author_url;
+        $embeds['footer']['text']     = $this->footer_text;
+        $embeds['thumbnail']['url']   = $this->thumbnail;
+        $embeds['image']['url']       = $this->image;
+        $embeds['author']['name']     = $this->author_name;
+        $embeds['author']['url']      = $this->author_url;
         $embeds['author']['icon_url'] = $this->author_icon;
-        $embeds['fields'] = $this->fields;
+        $embeds['fields']             = $this->fields;
 
-        $return = [];
-        $return['content'] = $this->content;
+        $return               = [];
+        $return['content']    = $this->content;
         $return['avatar_url'] = $this->avatar;
-        $return['username'] = $this->username;
-        $return['embed'] = $embeds;
+        $return['username']   = $this->username;
+        $return['embed']      = $embeds;
 
         return $return;
     }
@@ -118,30 +119,51 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
     /**
      * @param string $title
      * @param string $value
-     * @param bool $inLine
+     * @param bool   $inLine
      */
     public function addField(string $title, string $value, bool $inLine = false)
     {
         $this->fields[] = [
-            'name' => $title,
-            'value' => $value,
+            'name'   => $title,
+            'value'  => $value,
             'inline' => $inLine,
         ];
     }
 
     /**
      * @param string $title
+     *
      * @return bool
      */
     public function removeField(string $title): bool
     {
-        if (isset($this->fields[$title])) {
-            unset($this->fields[$title]);
+        foreach ($this->fields as $key => $field) {
+            if ($field['name'] === $title) {
+                unset($this->fields[$key]);
 
-            return true;
+                return true;
+            }
         }
 
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return array
+     */
+    public function getField(string $title): array
+    {
+        return $this->findFieldByTitle($title);
     }
 
     /**
@@ -342,5 +364,21 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
     public function formatForDiscord(): array
     {
         return $this->toArray();
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return array
+     */
+    protected function findFieldByTitle(string $title): array
+    {
+        foreach ($this->fields as $field) {
+            if ($field['name'] === $title) {
+                return $field;
+            }
+        }
+
+        return [];
     }
 }

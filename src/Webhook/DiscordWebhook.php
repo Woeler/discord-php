@@ -20,17 +20,19 @@ class DiscordWebhook
 
     /**
      * DiscordWebhook constructor.
-     * @param string $webhookUrl
+     *
+     * @param string                  $webhookUrl
      * @param DiscordMessageInterface $message
      */
     public function __construct(string $webhookUrl, DiscordMessageInterface $message = null)
     {
         $this->webhookUrl = $webhookUrl;
-        $this->message = $message;
+        $this->message    = $message;
     }
 
     /**
      * @return int
+     *
      * @throws DiscordNoContentException
      * @throws DiscordInvalidResponseException
      */
