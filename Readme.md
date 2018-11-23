@@ -20,3 +20,21 @@ $webhook =  new DiscordWebhook(
 );
 $webhook->send();
 ```
+
+Sending an embeds message
+```php
+$message = new DiscordEmbedsMessage();
+$message->setContent('Hello World');
+$message->setAvatar('https://example.com/avatar.png');
+$message->setUsername('Webhook Test');
+$message->setTitle('Hello Title');
+$message->setDescription('Some nice description');
+$message->addField('Field name', 'Field value');
+$message->setImage('https://example.com/someinage.png');
+
+$webhook =  new DiscordWebhook(
+    'https://discordapp.com/api/webhooks/SomeWebHook',
+    $message
+);
+$webhook->send();
+```
