@@ -44,7 +44,7 @@ class DiscordWebhook
 
         $content = $this->message->formatForDiscord();
 
-        if (empty($content['content']) && empty($content['embed'])) {
+        if (empty($content['content']) && empty($content['embeds'])) {
             throw new DiscordNoContentException('Discord Message object has no content.');
         }
 
