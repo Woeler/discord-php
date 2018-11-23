@@ -30,7 +30,7 @@ $message->setUsername('Webhook Test');
 $message->setTitle('Hello Title');
 $message->setDescription('Some nice description');
 $message->addField('Field name', 'Field value');
-$message->setImage('https://example.com/someinage.png');
+$message->setImage('https://example.com/someimage.png');
 
 $webhook =  new DiscordWebhook(
     'https://discordapp.com/api/webhooks/SomeWebHook',
