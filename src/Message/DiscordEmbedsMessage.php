@@ -84,28 +84,36 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
      */
     public function toArray(): array
     {
-        $embeds                       = [];
-        $embeds['title']              = $this->title;
-        $embeds['description']        = $this->description;
-        $embeds['url']                = $this->url;
-        $embeds['color']              = $this->color;
-        $embeds['timestamp']          = $this->timestamp->getTimestamp();
-        $embeds['footer']['icon_url'] = $this->footer_icon;
-        $embeds['footer']['text']     = $this->footer_text;
-        $embeds['thumbnail']['url']   = $this->thumbnail;
-        $embeds['image']['url']       = $this->image;
-        $embeds['author']['name']     = $this->author_name;
-        $embeds['author']['url']      = $this->author_url;
-        $embeds['author']['icon_url'] = $this->author_icon;
-        $embeds['fields']             = $this->fields;
+        $data = [
+            'username'   => $this->username,
+            'content'    => $this->content,
+            'avatar_url' => $this->avatar,
+            'embeds'     => [[
+                'title'       => $this->title,
+                'description' => $this->description,
+                'timestamp'   => $this->timestamp->format(\DateTime::ATOM),
+                'url'         => $this->url,
+                'color'       => $this->color,
+                'author'      => [
+                    'name'     => $this->author_name,
+                    'url'      => $this->author_url,
+                    'icon_url' => $this->author_icon,
+                ],
+                'image' => [
+                    'url' => $this->image,
+                ],
+                'thumbnail' => [
+                    'url' => $this->thumbnail,
+                ],
+                'fields' => $this->fields,
+                'footer' => [
+                    'text'     => $this->footer_text,
+                    'icon_url' => $this->footer_icon,
+                ],
+            ]],
+        ];
 
-        $return               = [];
-        $return['content']    = $this->content;
-        $return['avatar_url'] = $this->avatar;
-        $return['username']   = $this->username;
-        $return['embed']      = $embeds;
-
-        return $return;
+        return $data;
     }
 
     /**
@@ -228,6 +236,15 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
     public function setColor(int $color)
     {
         $this->color = $color;
+    }
+
+    /**
+     * @param string $hexValue
+     */
+    public function setColorWithHexValue(string $hexValue)
+    {
+        $hexValue    = str_replace('#', '', $hexValue);
+        $this->color = hexdec($hexValue);
     }
 
     /**
