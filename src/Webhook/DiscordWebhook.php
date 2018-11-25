@@ -58,7 +58,7 @@ class DiscordWebhook
         curl_close($ch);
 
         if ($code < 200 || $code >= 400) {
-            throw new DiscordInvalidResponseException('Discord Webhook returned invalid response: '.$code.'.');
+            throw new DiscordInvalidResponseException('Discord Webhook returned invalid response: '.$code.'.', $code);
         }
 
         return $code;
