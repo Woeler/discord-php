@@ -1,15 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Woeler\DiscordPhp\Message;
 
 /**
- * Class DiscordExceptionMessage
- * @package Woeler\DiscordPhp\Message
- *
- * This class can be used when you want to log
- * or be notified about your exceptions
- * via Discord
+ * Class DiscordExceptionMessage.
  */
 class DiscordExceptionMessage extends DiscordEmbedsMessage
 {
@@ -25,7 +21,9 @@ class DiscordExceptionMessage extends DiscordEmbedsMessage
 
     /**
      * DiscordExceptionMessage constructor.
+     *
      * @param \Exception $e
+     *
      * @throws \Exception
      */
     public function __construct(\Exception $e)
@@ -40,8 +38,8 @@ class DiscordExceptionMessage extends DiscordEmbedsMessage
     public function formatForDiscord(): array
     {
         if (!$this->wasFormatted) {
-            $this->setTitle('New ' . get_class($this->exception));
-            $this->setDescription('```' . $this->exception->getMessage() . '```');
+            $this->setTitle('New '.get_class($this->exception));
+            $this->setDescription('```'.$this->exception->getMessage().'```');
             $this->addField('File', $this->exception->getFile());
             $this->addField('Line', $this->exception->getLine());
             $this->wasFormatted = true;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Woeler\DiscordPhp\Webhook;
@@ -9,6 +10,11 @@ use Woeler\DiscordPhp\Message\DiscordMessageInterface;
 
 class DiscordWebhook
 {
+    /**
+     * The url prefix for Discord webhooks. In case you use want to use the identifier.
+     */
+    const DISCORD_WEBHOOK_URL_PREFIX = 'https://discordapp.com/api/webhooks/';
+
     /**
      * @var string
      */
