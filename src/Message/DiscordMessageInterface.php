@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: woeler
- * Date: 22.11.18
- * Time: 18:55.
- */
+declare(strict_types=1);
 
 namespace Woeler\DiscordPhp\Message;
 

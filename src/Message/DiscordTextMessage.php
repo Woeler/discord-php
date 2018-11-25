@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: woeler
- * Date: 22.11.18
- * Time: 19:02.
- */
+declare(strict_types=1);
 
 namespace Woeler\DiscordPhp\Message;
 
 class DiscordTextMessage extends AbstractDiscordMessage
 {
+    /**
+     * @return array
+     */
     public function formatForDiscord(): array
     {
         $return               = [];
