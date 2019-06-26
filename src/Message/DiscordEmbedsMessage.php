@@ -27,7 +27,7 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
     protected $color;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeInterface
      */
     protected $timestamp;
 
@@ -73,8 +73,6 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * DiscordEmbedsMessage constructor.
-     *
-     * @throws \Exception
      */
     public function __construct()
     {
@@ -130,14 +128,18 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
      * @param string $title
      * @param string $value
      * @param bool   $inLine
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function addField(string $title, string $value, bool $inLine = false)
+    public function addField(string $title, string $value, bool $inLine = false): self
     {
         $this->fields[] = [
             'name'   => $title,
             'value'  => $value,
             'inline' => $inLine,
         ];
+
+        return $this;
     }
 
     /**
@@ -186,10 +188,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $title
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
     }
 
     /**
@@ -202,10 +208,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $description
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setDescription(string $description)
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -218,10 +228,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $url
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
     }
 
     /**
@@ -234,35 +248,47 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param int $color
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setColor(int $color)
+    public function setColor(int $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
     /**
      * @param string $hexValue
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setColorWithHexValue(string $hexValue)
+    public function setColorWithHexValue(string $hexValue): self
     {
         $hexValue    = str_replace('#', '', $hexValue);
         $this->color = hexdec($hexValue);
+
+        return $this;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeInterface
      */
-    public function getTimestamp(): \DateTime
+    public function getTimestamp(): \DateTimeInterface
     {
         return $this->timestamp;
     }
 
     /**
-     * @param \DateTime $timestamp
+     * @param \DateTimeInterface $timestamp
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setTimestamp(\DateTime $timestamp)
+    public function setTimestamp(\DateTimeInterface $timestamp): self
     {
         $this->timestamp = $timestamp;
+
+        return $this;
     }
 
     /**
@@ -275,10 +301,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $footer_icon
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setFooterIcon(string $footer_icon)
+    public function setFooterIcon(string $footer_icon): self
     {
         $this->footer_icon = $footer_icon;
+
+        return $this;
     }
 
     /**
@@ -291,10 +321,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $footer_text
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setFooterText(string $footer_text)
+    public function setFooterText(string $footer_text): self
     {
         $this->footer_text = $footer_text;
+
+        return $this;
     }
 
     /**
@@ -307,10 +341,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $thumbnail
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setThumbnail(string $thumbnail)
+    public function setThumbnail(string $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
+
+        return $this;
     }
 
     /**
@@ -323,10 +361,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $image
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setImage(string $image)
+    public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
     }
 
     /**
@@ -339,10 +381,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $author_name
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setAuthorName(string $author_name)
+    public function setAuthorName(string $author_name): self
     {
         $this->author_name = $author_name;
+
+        return $this;
     }
 
     /**
@@ -355,10 +401,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $author_url
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setAuthorUrl(string $author_url)
+    public function setAuthorUrl(string $author_url): self
     {
         $this->author_url = $author_url;
+
+        return $this;
     }
 
     /**
@@ -371,10 +421,14 @@ class DiscordEmbedsMessage extends AbstractDiscordMessage
 
     /**
      * @param string $author_icon
+     *
+     * @return DiscordEmbedsMessage
      */
-    public function setAuthorIcon(string $author_icon)
+    public function setAuthorIcon(string $author_icon): self
     {
         $this->author_icon = $author_icon;
+
+        return $this;
     }
 
     /**
