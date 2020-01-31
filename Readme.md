@@ -9,32 +9,26 @@ composer require woeler/phpdiscord
 ## Usage
 Sending a text message
 ```php
-$message = new DiscordTextMessage();
-$message->setContent('Hello World');
-$message->setAvatar('https://example.com/avatar.png');
-$message->setUsername('Webhook Test');
+$message = (new DiscordTextMessage())
+    ->setContent('Hello World')
+    ->setAvatar('https://example.com/avatar.png')
+    ->setUsername('Webhook Test');
 
-$webhook =  new DiscordWebhook(
-    'https://discordapp.com/api/webhooks/SomeWebHook',
-    $message
-);
-$webhook->send();
+$webhook = new DiscordWebhook('https://discordapp.com/api/webhooks/SomeWebHook');
+$webhook->send($message);
 ```
 
-Sending an embeds message
+Sending an embed message
 ```php
-$message = new DiscordEmbedsMessage();
-$message->setContent('Hello World');
-$message->setAvatar('https://example.com/avatar.png');
-$message->setUsername('Webhook Test');
-$message->setTitle('Hello Title');
-$message->setDescription('Some nice description');
-$message->addField('Field name', 'Field value');
-$message->setImage('https://example.com/someimage.png');
+$message = (new DiscordEmbedMessage())
+    ->setContent('Hello World')
+    ->setAvatar('https://example.com/avatar.png')
+    ->setUsername('Webhook Test')
+    ->setTitle('Hello Title')
+    ->setDescription('Some nice description')
+    ->addField('Field name', 'Field value')
+    ->setImage('https://example.com/someimage.png');
 
-$webhook =  new DiscordWebhook(
-    'https://discordapp.com/api/webhooks/SomeWebHook',
-    $message
-);
-$webhook->send();
+$webhook = new DiscordWebhook('https://discordapp.com/api/webhooks/SomeWebHook');
+$webhook->send($message);
 ```

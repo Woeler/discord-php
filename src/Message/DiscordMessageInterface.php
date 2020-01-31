@@ -6,8 +6,9 @@ namespace Woeler\DiscordPhp\Message;
 
 interface DiscordMessageInterface
 {
-    /**
-     * @return array
-     */
     public function formatForDiscord(): array;
+
+    public function toArray(): array;
+
+    public function toJson(): string;
 }

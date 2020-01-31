@@ -3,3 +3,4 @@
 /composer.lock
 /vendor
 /test.php
+/bin/php-cs-fixer
