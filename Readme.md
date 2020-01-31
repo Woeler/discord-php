@@ -32,3 +32,5 @@ $message = (new DiscordEmbedMessage())
 $webhook = new DiscordWebhook('https://discordapp.com/api/webhooks/SomeWebHook');
 $webhook->send($message);
 ```
+
+Sending messages via the webhook class will automatically handle rate limits.
