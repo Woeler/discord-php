@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace Woeler\DiscordPhp\Message;
 
-class DiscordTextMessage implements DiscordMessageInterface
+class DiscordTextMessage extends AbstractDiscordMessage
 {
     /**
      * @var string
      */
-    protected $content;
+    private $content;
 
     /**
      * @var string
      */
-    protected $avatar;
+    private $avatar;
 
     /**
      * @var string
      */
-    protected $username;
+    private $username;
 
     /**
      * @var bool
      */
-    protected $tts = false;
+    private $tts = false;
 
     public function setContent(string $content): self
     {
@@ -74,11 +74,6 @@ class DiscordTextMessage implements DiscordMessageInterface
         return $this;
     }
 
-    public function formatForDiscord(): array
-    {
-        return $this->toArray();
-    }
-
     public function toArray(): array
     {
         return [
@@ -89,8 +84,8 @@ class DiscordTextMessage implements DiscordMessageInterface
         ];
     }
 
-    public function toJson(): string
+    public function jsonSerialize()
     {
-        return json_encode($this->toArray());
+        return $this->toArray();
     }
 }

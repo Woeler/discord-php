@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Woeler\DiscordPhp\Webhook;
 
 use Woeler\DiscordPhp\Exception\DiscordInvalidResponseException;
-use Woeler\DiscordPhp\Message\DiscordMessageInterface;
+use Woeler\DiscordPhp\Message\AbstractDiscordMessage;
 
 class DiscordWebhook
 {
@@ -17,7 +17,7 @@ class DiscordWebhook
     /**
      * @var string
      */
-    protected $webhookUrl;
+    private $webhookUrl;
 
     public function __construct(string $webhookUrl)
     {
@@ -27,20 +27,29 @@ class DiscordWebhook
     /**
      * @throws DiscordInvalidResponseException
      */
-    public function send(DiscordMessageInterface $message): int
+    public function send(AbstractDiscordMessage $message): int
     {
-        $ch = curl_init($this->webhookUrl);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $message->toJson());
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['content-type: application/json']);
-        curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $sent = false;
 
-        if ($code < 200 || $code >= 400) {
-            throw new DiscordInvalidResponseException('Discord Webhook returned invalid response: '.$code.'.', $code);
+        while (!$sent) {
+            $ch = curl_init($this->webhookUrl);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['content-type: application/json']);
+            $response = curl_exec($ch);
+            $code     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if (429 === $code) {
+                $response = json_decode($response, false);
+                usleep($response->retry_after * 1000);
+            } else {
+                $sent = true;
+                if ($code < 200 || $code >= 400) {
+                    throw new DiscordInvalidResponseException('Discord Webhook returned invalid response: '.$code.'.', $code);
+                }
+            }
         }
 
         return $code;

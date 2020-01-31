@@ -6,96 +6,96 @@ namespace Woeler\DiscordPhp\Message;
 
 use DateTimeInterface;
 
-class DiscordEmbedMessage implements DiscordMessageInterface
+class DiscordEmbedMessage extends AbstractDiscordMessage
 {
     /**
      * @var string
      */
-    protected $content;
+    private $content;
 
     /**
      * @var string
      */
-    protected $avatar;
+    private $avatar;
 
     /**
      * @var string
      */
-    protected $username;
+    private $username;
 
     /**
      * @var string
      */
-    protected $title;
+    private $title;
 
     /**
      * @var string
      */
-    protected $description;
+    private $description;
 
     /**
      * @var string
      */
-    protected $url;
+    private $url;
 
     /**
      * @var int
      */
-    protected $color;
+    private $color;
 
     /**
      * @var DateTimeInterface
      */
-    protected $timestamp;
+    private $timestamp;
 
     /**
      * @var string
      */
-    protected $footer_icon;
+    private $footer_icon;
 
     /**
      * @var string
      */
-    protected $footer_text;
+    private $footer_text;
 
     /**
      * @var string
      */
-    protected $thumbnail;
+    private $thumbnail;
 
     /**
      * @var string
      */
-    protected $image;
+    private $image;
 
     /**
      * @var string
      */
-    protected $author_name;
+    private $author_name;
 
     /**
      * @var string
      */
-    protected $author_url;
+    private $author_url;
 
     /**
      * @var string
      */
-    protected $author_icon;
+    private $author_icon;
 
     /**
      * @var array
      */
-    protected $fields = [];
+    private $fields = [];
 
     /**
      * @var bool
      */
-    protected $tts = false;
+    private $tts = false;
 
     public function toArray(): array
     {
-        $data = [
+        return [
             'username'   => $this->username,
             'content'    => $this->content,
             'avatar_url' => $this->avatar,
@@ -124,8 +124,6 @@ class DiscordEmbedMessage implements DiscordMessageInterface
                 ],
             ]],
         ];
-
-        return $data;
     }
 
     public function getContent(): ?string
@@ -374,7 +372,7 @@ class DiscordEmbedMessage implements DiscordMessageInterface
         return $this;
     }
 
-    public function formatForDiscord(): array
+    public function jsonSerialize()
     {
         return $this->toArray();
     }
