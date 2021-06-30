@@ -14,10 +14,7 @@ class DiscordWebhook
      */
     public const DISCORD_WEBHOOK_URL_PREFIX = 'https://discordapp.com/api/webhooks/';
 
-    /**
-     * @var string
-     */
-    private $webhookUrl;
+    private string $webhookUrl;
 
     public function __construct(string $webhookUrl)
     {
@@ -34,15 +31,15 @@ class DiscordWebhook
         while (!$sent) {
             $ch = curl_init($this->webhookUrl);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message, JSON_THROW_ON_ERROR));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['content-type: application/json']);
             $response = curl_exec($ch);
-            $code     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 
             if (429 === $code) {
-                $response = json_decode($response, false);
+                $response = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
                 usleep($response->retry_after * 1000);
             } else {
                 $sent = true;

@@ -8,107 +8,40 @@ use DateTimeInterface;
 
 class DiscordEmbedMessage extends AbstractDiscordMessage
 {
-    /**
-     * @var string
-     */
-    private $content;
-
-    /**
-     * @var string
-     */
-    private $avatar;
-
-    /**
-     * @var string
-     */
-    private $username;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string
-     */
-    private $url;
-
-    /**
-     * @var int
-     */
-    private $color;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $timestamp;
-
-    /**
-     * @var string
-     */
-    private $footer_icon;
-
-    /**
-     * @var string
-     */
-    private $footer_text;
-
-    /**
-     * @var string
-     */
-    private $thumbnail;
-
-    /**
-     * @var string
-     */
-    private $image;
-
-    /**
-     * @var string
-     */
-    private $author_name;
-
-    /**
-     * @var string
-     */
-    private $author_url;
-
-    /**
-     * @var string
-     */
-    private $author_icon;
-
-    /**
-     * @var array
-     */
-    private $fields = [];
-
-    /**
-     * @var bool
-     */
-    private $tts = false;
+    private ?string $content = null;
+    private ?string $avatar = null;
+    private ?string $username = null;
+    private ?string $title = null;
+    private ?string $description = null;
+    private ?string $url = null;
+    private ?int $color = null;
+    private ?\DateTimeInterface $timestamp = null;
+    private ?string $footer_icon = null;
+    private ?string $footer_text = null;
+    private ?string $thumbnail = null;
+    private ?string $image = null;
+    private ?string $author_name = null;
+    private ?string $author_url = null;
+    private ?string $author_icon = null;
+    private array $fields = [];
+    private bool $tts = false;
 
     public function toArray(): array
     {
         return [
-            'username'   => $this->username,
-            'content'    => $this->content,
+            'username' => $this->username,
+            'content' => $this->content,
             'avatar_url' => $this->avatar,
-            'tts'        => $this->tts,
-            'embeds'     => [[
-                'title'       => $this->title,
+            'tts' => $this->tts,
+            'embeds' => [[
+                'title' => $this->title,
                 'description' => $this->description,
-                'timestamp'   => null === $this->timestamp ? null : $this->timestamp->format(\DateTime::ATOM),
-                'url'         => $this->url,
-                'color'       => $this->color,
-                'author'      => [
-                    'name'     => $this->author_name,
-                    'url'      => $this->author_url,
+                'timestamp' => null === $this->timestamp ? null : $this->timestamp->format('Y-m-d\TH:i:sP'),
+                'url' => $this->url,
+                'color' => $this->color,
+                'author' => [
+                    'name' => $this->author_name,
+                    'url' => $this->author_url,
                     'icon_url' => $this->author_icon,
                 ],
                 'image' => [
@@ -119,7 +52,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
                 ],
                 'fields' => $this->fields,
                 'footer' => [
-                    'text'     => $this->footer_text,
+                    'text' => $this->footer_text,
                     'icon_url' => $this->footer_icon,
                 ],
             ]],
@@ -332,14 +265,14 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
 
     public function toJson(): string
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
     }
 
     public function addField(string $title, string $value, bool $inLine = false): self
     {
         $this->fields[] = [
-            'name'   => $title,
-            'value'  => $value,
+            'name' => $title,
+            'value' => $value,
             'inline' => $inLine,
         ];
 
@@ -366,13 +299,13 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
 
     public function setColorWithHexValue(string $hexValue): self
     {
-        $hexValue    = str_replace('#', '', $hexValue);
+        $hexValue = str_replace('#', '', $hexValue);
         $this->color = hexdec($hexValue);
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
