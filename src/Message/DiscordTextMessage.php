@@ -6,60 +6,7 @@ namespace Woeler\DiscordPhp\Message;
 
 class DiscordTextMessage extends AbstractDiscordMessage
 {
-    private ?string $content;
-    private ?string $avatar;
-    private ?string $username;
-    private bool $tts = false;
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function isTts(): bool
-    {
-        return $this->tts;
-    }
-
-    public function setTts(bool $tts): self
-    {
-        $this->tts = $tts;
-
-        return $this;
-    }
-
-    public function toArray(): array
+    public function jsonSerialize(): array
     {
         return [
             'content' => $this->content,
@@ -67,10 +14,5 @@ class DiscordTextMessage extends AbstractDiscordMessage
             'username' => $this->username,
             'tts' => $this->tts,
         ];
-    }
-
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
     }
 }

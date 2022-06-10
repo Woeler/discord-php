@@ -5,3 +5,4 @@
 /vendor
 /test.php
 /bin/php-cs-fixer
+/.php-cs-fixer.cache

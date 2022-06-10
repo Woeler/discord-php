@@ -8,9 +8,6 @@ use DateTimeInterface;
 
 class DiscordEmbedMessage extends AbstractDiscordMessage
 {
-    private ?string $content = null;
-    private ?string $avatar = null;
-    private ?string $username = null;
     private ?string $title = null;
     private ?string $description = null;
     private ?string $url = null;
@@ -24,9 +21,8 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
     private ?string $author_url = null;
     private ?string $author_icon = null;
     private array $fields = [];
-    private bool $tts = false;
 
-    public function toArray(): array
+    public function jsonSerialize(): array
     {
         return [
             'username' => $this->username,
@@ -36,7 +32,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
             'embeds' => [[
                 'title' => $this->title,
                 'description' => $this->description,
-                'timestamp' => null === $this->timestamp ? null : $this->timestamp->format('Y-m-d\TH:i:sP'),
+                'timestamp' => $this->timestamp?->format('Y-m-d\TH:i:sP'),
                 'url' => $this->url,
                 'color' => $this->color,
                 'author' => [
@@ -59,48 +55,12 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         ];
     }
 
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): static
     {
         $this->title = $title;
 
@@ -112,7 +72,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description): static
     {
         $this->description = $description;
 
@@ -124,7 +84,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function setUrl(string $url): static
     {
         $this->url = $url;
 
@@ -136,7 +96,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->color;
     }
 
-    public function setColor(int $color): self
+    public function setColor(int $color): static
     {
         $this->color = $color;
 
@@ -148,7 +108,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->timestamp;
     }
 
-    public function setTimestamp(DateTimeInterface $timestamp): self
+    public function setTimestamp(DateTimeInterface $timestamp): static
     {
         $this->timestamp = $timestamp;
 
@@ -160,7 +120,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->footer_icon;
     }
 
-    public function setFooterIcon(string $footer_icon): self
+    public function setFooterIcon(string $footer_icon): static
     {
         $this->footer_icon = $footer_icon;
 
@@ -172,7 +132,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->footer_text;
     }
 
-    public function setFooterText(string $footer_text): self
+    public function setFooterText(string $footer_text): static
     {
         $this->footer_text = $footer_text;
 
@@ -184,7 +144,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->thumbnail;
     }
 
-    public function setThumbnail(string $thumbnail): self
+    public function setThumbnail(string $thumbnail): static
     {
         $this->thumbnail = $thumbnail;
 
@@ -196,7 +156,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(string $image): static
     {
         $this->image = $image;
 
@@ -208,7 +168,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->author_name;
     }
 
-    public function setAuthorName(string $author_name): self
+    public function setAuthorName(string $author_name): static
     {
         $this->author_name = $author_name;
 
@@ -220,7 +180,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->author_url;
     }
 
-    public function setAuthorUrl(string $author_url): self
+    public function setAuthorUrl(string $author_url): static
     {
         $this->author_url = $author_url;
 
@@ -232,7 +192,7 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->author_icon;
     }
 
-    public function setAuthorIcon(string $author_icon): self
+    public function setAuthorIcon(string $author_icon): static
     {
         $this->author_icon = $author_icon;
 
@@ -244,31 +204,14 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->fields;
     }
 
-    public function setFields(array $fields): self
+    public function setFields(array $fields): static
     {
         $this->fields = $fields;
 
         return $this;
     }
 
-    public function isTts(): bool
-    {
-        return $this->tts;
-    }
-
-    public function setTts(bool $tts): self
-    {
-        $this->tts = $tts;
-
-        return $this;
-    }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray(), JSON_THROW_ON_ERROR);
-    }
-
-    public function addField(string $title, string $value, bool $inLine = false): self
+    public function addField(string $title, string $value, bool $inLine = false): static
     {
         $this->fields[] = [
             'name' => $title,
@@ -297,17 +240,12 @@ class DiscordEmbedMessage extends AbstractDiscordMessage
         return $this->findFieldByTitle($title);
     }
 
-    public function setColorWithHexValue(string $hexValue): self
+    public function setColorWithHexValue(string $hexValue): static
     {
         $hexValue = str_replace('#', '', $hexValue);
         $this->color = hexdec($hexValue);
 
         return $this;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
     }
 
     protected function findFieldByTitle(string $title): array
