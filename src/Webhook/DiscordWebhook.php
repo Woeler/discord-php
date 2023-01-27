@@ -70,7 +70,7 @@ class DiscordWebhook
 
             if (429 === $code) {
                 $response = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
-                usleep($response['retry_after'] * 1000);
+                usleep((int) ($response['retry_after'] * 1000));
             } else {
                 $sent = true;
                 if ($code < 200 || $code >= 400) {
